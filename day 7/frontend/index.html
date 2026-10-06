@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Company Manager</title>
+</head>
+
+<body>
+
+    <h1>Update Company Name</h1>
+
+    <label>Old Company Name:</label>
+    <input type="text" id="oldName">
+
+    <br><br>
+
+    <label>New Company Name:</label>
+    <input type="text" id="newName">
+
+    <br><br>
+
+    <button id="updateButton">Update Name</button>
+
+    <p id="result"></p>
+
+    <script>
+        document.getElementById("updateButton").addEventListener("click", async () => {
+
+            const oldname = document.getElementById("oldName").value;
+            const newname = document.getElementById("newName").value;
+
+            const response = await fetch(
+                "http://127.0.0.1:8000/companies/",
+                {
+                    method: "PATCH",
+
+                    headers: {
+                        "Content-Type": "application/json",
+                        "Authorization": "Bearer 240987"
+                    },
+
+                    body: JSON.stringify({
+                        oldname: oldname,
+                        newname: newname
+                    })
+                }
+            );
+
+            const data = await response.json();
+
+            document.getElementById("result").innerText =
+                data.message || data.detail;
+        });
+    </script>
+
+</body>
+</html>
